@@ -120,7 +120,10 @@ fun MainPage() {
         ),
     )
 
-    ModalNavigationDrawer(drawerContent = {
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        gesturesEnabled = false,
+        drawerContent = {
 
         ModalDrawerSheet {
 
@@ -157,7 +160,7 @@ fun MainPage() {
                 )
             }
         }
-    }, drawerState = drawerState) {
+    }) {
         Scaffold(
             topBar = {
                 // Mover el TopAppBar aquí para que esté siempre presente
@@ -217,8 +220,6 @@ fun MainPage() {
                             ?.let { AboutPage(it, navController, viewModel) }
                     }
                 }
-
-
 
             }
         }
