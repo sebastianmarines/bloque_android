@@ -214,7 +214,7 @@ fun MainPage() {
 
                     composable("AboutPage"+ "/{org}") {  backStackEntry ->
                         backStackEntry.arguments?.getString("org")
-                            ?.let { AboutPage(it,navController) }
+                            ?.let { AboutPage(it, navController, viewModel) }
                     }
                 }
 

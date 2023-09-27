@@ -50,22 +50,12 @@ fun HomePage(
 
     Column {
         Text(text = "Welcome to HomePage")
-        //Text(text = "Is Logged In: ${loggedIn.value}")
 
     }
 
     LaunchedEffect(null) {
         viewModel.getOrganizaciones(organizaciones)
     }
-
-//    val organizaciones: List<String> = listOf(
-//        "Organizacion A",
-//        "Organizacion B",
-//        "Organizacion C",
-//        "Organizacion D ",
-//        "Organizacion E",
-//        "Organizacion F"
-//    )
 
     Surface(
         color = MaterialTheme.colorScheme.background
@@ -75,7 +65,7 @@ fun HomePage(
                 items(items = organizaciones.value) {
                     OrgRow(orgname = it.nombre) { orgname ->
                         Log.d("Organizaciones", "$orgname")
-                        navController.navigate("AboutPage/$it.id")
+                        navController.navigate("AboutPage/${it.id}")
                     }
                 }
             }

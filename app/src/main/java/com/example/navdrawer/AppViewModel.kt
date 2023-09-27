@@ -24,23 +24,23 @@ class AppViewModel : ViewModel() {
         return isLoggedIn
     }
 
-    fun getOrganizaciones(osc_state: MutableState<List<OSCModel>>) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://172.21.219.47:8000/api/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    private fun createRetrofitService(): OSCService {
+        val retrofit = Retrofit.Builder().baseUrl("http://172.21.219.47:8000/api/")
+            .addConverterFactory(GsonConverterFactory.create()).build()
 
         Log.e("AppViewModel", "getOrganizaciones: ${retrofit.baseUrl()}")
 
-        val service = retrofit.create(OSCService::class.java)
+        return retrofit.create(OSCService::class.java)
+    }
+
+    fun getOrganizaciones(osc_state: MutableState<List<OSCModel>>) {
+        val service = createRetrofitService()
 
         val call: Call<List<OSCModel>> = service.getOrganizaciones()
 
-
-        call!!.enqueue(object : retrofit2.Callback<List<OSCModel>> {
+        call.enqueue(object : retrofit2.Callback<List<OSCModel>> {
             override fun onResponse(
-                call: Call<List<OSCModel>>,
-                response: retrofit2.Response<List<OSCModel>>
+                call: Call<List<OSCModel>>, response: retrofit2.Response<List<OSCModel>>
             ) {
                 if (!response.isSuccessful || response.code() != 200) {
                     Log.e("AppViewModel", "onResponse: ${response.code()}")
@@ -55,6 +55,29 @@ class AppViewModel : ViewModel() {
                 Log.e("AppViewModel", "onFailure: ${t.message}")
             }
         })
+    }
 
+    fun getOrganizacion(id: String, osc_state: MutableState<OSCModel>) {
+        val service = createRetrofitService()
+
+        val call: Call<OSCModel> = service.getOrganizacion(id)
+
+        call.enqueue(object : retrofit2.Callback<OSCModel> {
+            override fun onResponse(
+                call: Call<OSCModel>, response: retrofit2.Response<OSCModel>
+            ) {
+                if (!response.isSuccessful || response.code() != 200) {
+                    Log.e("AppViewModel", "onResponse: ${response.code()}")
+                    return
+                }
+
+                Log.e("AppViewModel", "onResponse: ${response.body()}")
+                osc_state.value = response.body()!!
+            }
+
+            override fun onFailure(call: Call<OSCModel>, t: Throwable) {
+                Log.e("AppViewModel", "onFailure: ${t.message}")
+            }
+        })
     }
 }
