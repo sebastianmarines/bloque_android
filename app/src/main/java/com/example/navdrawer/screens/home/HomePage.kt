@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -30,13 +31,21 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.navdrawer.AppViewModel
+import com.example.navdrawer.OSCModel
 
 @Composable
-fun HomePage(navController: NavController, viewModel: AppViewModel) {
+fun HomePage(
+    navController: NavController,
+    viewModel: AppViewModel,
+) {
 
 
     val loggedIn = remember {
         mutableStateOf(viewModel.isUserLoggedIn())
+    }
+
+    var organizaciones = remember {
+        mutableStateOf(listOf<OSCModel>())
     }
 
     Column {
@@ -45,25 +54,28 @@ fun HomePage(navController: NavController, viewModel: AppViewModel) {
 
     }
 
-    val organizaciones: List<String> = listOf(
-        "Organizacion A",
-        "Organizacion B",
-        "Organizacion C",
-        "Organizacion D ",
-        "Organizacion E",
-        "Organizacion F"
-    )
+    LaunchedEffect(null) {
+        viewModel.getOrganizaciones(organizaciones)
+    }
+
+//    val organizaciones: List<String> = listOf(
+//        "Organizacion A",
+//        "Organizacion B",
+//        "Organizacion C",
+//        "Organizacion D ",
+//        "Organizacion E",
+//        "Organizacion F"
+//    )
 
     Surface(
         color = MaterialTheme.colorScheme.background
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             LazyColumn {
-                items(items = organizaciones) {
-                    OrgRow(orgname = it) { orgname ->
+                items(items = organizaciones.value) {
+                    OrgRow(orgname = it.nombre) { orgname ->
                         Log.d("Organizaciones", "$orgname")
-                        //navController.navigate("movieDetail/$movie") // Navega a la pantalla de detalles con el nombre de la película
-                        navController.navigate("AboutPage/" + orgname)
+                        navController.navigate("AboutPage/$it.id")
                     }
                 }
             }

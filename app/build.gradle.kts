@@ -76,11 +76,11 @@ dependencies {
     implementation("com.google.maps.android:maps-compose:2.15.0")
     implementation("com.google.maps.android:maps-compose-utils:2.15.0")
     implementation("com.google.maps.android:maps-compose-widgets:2.15.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.5.0")
 }
 
 secrets {
-    // To add your Maps API key to this project:
-    // 1. Add this line to your local.properties file, where YOUR_API_KEY is your API key:
-    //        MAPS_API_KEY=YOUR_API_KEY
     propertiesFileName = "local.properties"
 }
