@@ -7,7 +7,7 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-class LoginRequest {
+open class LoginRequest {
     var username: String
     var password: String
 
@@ -17,10 +17,30 @@ class LoginRequest {
     }
 }
 
+class RegisterRequest : LoginRequest {
+    var email: String
+    var phone: String
+    var first_name: String
+    var last_name: String
+
+    constructor(
+        username: String,
+        password: String,
+        email: String,
+        phone: String,
+        first_name: String,
+        last_name: String
+    ) : super(username, password) {
+        this.email = email
+        this.phone = phone
+        this.first_name = first_name
+        this.last_name = last_name
+    }
+}
+
 interface OSCService {
     @Headers(
-        "Accept: application/json",
-        "Content-type: application/json"
+        "Accept: application/json", "Content-type: application/json"
     )
     @GET("orgs/")
     fun getOrganizaciones(): Call<List<OSCModel>>
@@ -30,5 +50,8 @@ interface OSCService {
 
     @POST("login/")
     fun login(@Body login: LoginRequest): Call<LoginResponse>
+
+    @POST("register/")
+    fun register(@Body register: RegisterRequest): Call<LoginResponse>
 }
 

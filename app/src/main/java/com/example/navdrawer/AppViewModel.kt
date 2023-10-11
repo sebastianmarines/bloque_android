@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import androidx.navigation.NavController
 
 class AppViewModel : ViewModel() {
 
@@ -99,7 +100,7 @@ class AppViewModel : ViewModel() {
         })
     }
 
-    fun loginUser(username: String, password: String) {
+    fun loginUser(username: String, password: String, nav: NavController) {
         val service = createRetrofitService()
 
         val login = LoginRequest(username, password)
@@ -112,12 +113,55 @@ class AppViewModel : ViewModel() {
                 if (!response.isSuccessful || response.code() != 200) {
                     Log.e("AppViewModel", "login onResponse: ${response.code()}")
                     Log.e("AppViewModel", "login onResponse: ${response.body()}")
+                    setLoginError("Usuario o contraseña incorrectos")
+                    nav.navigate("LoginPage")
                     return
                 }
 
                 Log.e("AppViewModel", "onResponse: ${response.body()}")
                 setToken(response.body()!!.token)
+                setLoginError("")
                 setLoggedIn()
+                nav.navigate("MainPage")
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.e("AppViewModel", "onFailure: ${t.message}")
+            }
+        })
+    }
+
+    fun registerUser(
+        username: String,
+        password: String,
+        email: String,
+        phone: String,
+        first_name: String,
+        last_name: String,
+        nav: NavController
+    ) {
+        val service = createRetrofitService()
+
+        val register = RegisterRequest(username, password, email, phone, first_name, last_name)
+        val call: Call<LoginResponse> = service.register(register)
+
+        call.enqueue(object : retrofit2.Callback<LoginResponse> {
+            override fun onResponse(
+                call: Call<LoginResponse>, response: retrofit2.Response<LoginResponse>
+            ) {
+                if (!response.isSuccessful || response.code() != 200) {
+                    Log.e("AppViewModel", "register onResponse: ${response.code()}")
+                    Log.e("AppViewModel", "register onResponse: ${response.body()}")
+                    setLoginError("El usuario ya existe")
+                    nav.navigate("RegisterPage")
+                    return
+                }
+
+                Log.e("AppViewModel", "onResponse: ${response.body()}")
+                setToken(response.body()!!.token)
+                setLoginError("")
+                setLoggedIn()
+                nav.navigate("MainPage")
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {

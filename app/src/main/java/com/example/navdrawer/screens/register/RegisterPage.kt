@@ -53,6 +53,8 @@ fun RegisterPage(navController: NavController, viewModel: AppViewModel) {
             ) {
                 Text("Registro de usuario", style = MaterialTheme.typography.headlineLarge)
 
+                Text(text = viewModel.getLoginError(), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.error)
+
                 OutlinedTextField(
                     value = nombre,
                     onValueChange = { nombre = it },
@@ -87,27 +89,22 @@ fun RegisterPage(navController: NavController, viewModel: AppViewModel) {
                     label = { Text("Número telefónico") },
                     modifier = Modifier.fillMaxWidth().padding(8.dp)
                 )
-                OutlinedTextField(
-                    value = estado,
-                    onValueChange = { estado = it },
-                    label = { Text("Estado") },
-                    modifier = Modifier.fillMaxWidth().padding(8.dp)
-                )
-                OutlinedTextField(
-                    value = ciudad,
-                    onValueChange = { ciudad = it },
-                    label = { Text("Ciudad") },
-                    modifier = Modifier.fillMaxWidth().padding(8.dp)
-                )
 
                 Button(
                     onClick = {
-                        viewModel.setLoggedIn()
-                        navController.navigate("MainPage")
+                        viewModel.registerUser(
+                            first_name = nombre,
+                            last_name = apellido,
+                            email = correo,
+                            password = contrasena,
+                            username = correo,
+                            phone = numeroTelefonico,
+                            nav = navController
+                        )
                     },
                     modifier = Modifier.fillMaxWidth().padding(8.dp)
                 ) {
-                    Text("Registro Listo")
+                    Text("Registrarme")
                 }
             }
         }

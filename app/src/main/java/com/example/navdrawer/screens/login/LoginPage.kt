@@ -104,16 +104,7 @@ fun LoginPage(navController: NavHostController, viewModel: AppViewModel) {
                 // Botón de inicio de sesión
                 Button(onClick = {
                     // Autenticación y navegación
-                    viewModel.loginUser(emailState.text, passwordState.text)
-                    if (viewModel.isUserLoggedIn()) {
-                        viewModel.setLoginError("")
-                        navController.navigate("MainPage")
-                    }
-                    else {
-                        viewModel.setLoginError("Usuario o contraseña incorrectos")
-                        navController.navigate("LoginPage")
-                    }
-
+                    viewModel.loginUser(emailState.text, passwordState.text, navController)
                 }) {
                     Text("Hacer Login")
                 }
@@ -122,6 +113,7 @@ fun LoginPage(navController: NavHostController, viewModel: AppViewModel) {
 
                 // Botón para ir a la página de registro
                 TextButton(onClick = {
+                    viewModel.setLoginError("")
                     navController.navigate("RegisterPage")
                 }) {
                     Text("¿No tienes una cuenta? Regístrate")
