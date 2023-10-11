@@ -57,6 +57,9 @@ fun LoginPage(navController: NavHostController, viewModel: AppViewModel) {
                 // Logo o nombre de la aplicación, si lo tienes
                 Text(text = "App Frisa")
 
+                // Error de inicio de sesión
+                Text(text = viewModel.getLoginError(), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.error)
+
                 Spacer(modifier = Modifier.height(24.dp))
 
                 // Campo de texto para correo
@@ -101,8 +104,16 @@ fun LoginPage(navController: NavHostController, viewModel: AppViewModel) {
                 // Botón de inicio de sesión
                 Button(onClick = {
                     // Autenticación y navegación
-                    viewModel.setLoggedIn()
-                    navController.navigate("MainPage")
+                    viewModel.loginUser(emailState.text, passwordState.text)
+                    if (viewModel.isUserLoggedIn()) {
+                        viewModel.setLoginError("")
+                        navController.navigate("MainPage")
+                    }
+                    else {
+                        viewModel.setLoginError("Usuario o contraseña incorrectos")
+                        navController.navigate("LoginPage")
+                    }
+
                 }) {
                     Text("Hacer Login")
                 }

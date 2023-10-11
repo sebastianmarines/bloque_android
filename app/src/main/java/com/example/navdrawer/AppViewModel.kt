@@ -11,6 +11,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 class AppViewModel : ViewModel() {
 
     private var isLoggedIn = false
+    private var token = ""
+    private var loginError = ""
+
+    fun setToken(token: String) {
+        this.token = token
+    }
+
+    fun getToken(): String {
+        return token
+    }
 
     fun setLoggedIn() {
         isLoggedIn = true
@@ -22,6 +32,14 @@ class AppViewModel : ViewModel() {
 
     fun isUserLoggedIn(): Boolean {
         return isLoggedIn
+    }
+
+    fun setLoginError(error: String) {
+        loginError = error
+    }
+
+    fun getLoginError(): String {
+        return loginError
     }
 
     private fun createRetrofitService(): OSCService {
@@ -76,6 +94,33 @@ class AppViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<OSCModel>, t: Throwable) {
+                Log.e("AppViewModel", "onFailure: ${t.message}")
+            }
+        })
+    }
+
+    fun loginUser(username: String, password: String) {
+        val service = createRetrofitService()
+
+        val login = LoginRequest(username, password)
+        val call: Call<LoginResponse> = service.login(login)
+
+        call.enqueue(object : retrofit2.Callback<LoginResponse> {
+            override fun onResponse(
+                call: Call<LoginResponse>, response: retrofit2.Response<LoginResponse>
+            ) {
+                if (!response.isSuccessful || response.code() != 200) {
+                    Log.e("AppViewModel", "login onResponse: ${response.code()}")
+                    Log.e("AppViewModel", "login onResponse: ${response.body()}")
+                    return
+                }
+
+                Log.e("AppViewModel", "onResponse: ${response.body()}")
+                setToken(response.body()!!.token)
+                setLoggedIn()
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.e("AppViewModel", "onFailure: ${t.message}")
             }
         })

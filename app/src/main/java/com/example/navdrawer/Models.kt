@@ -24,3 +24,7 @@ data class OSCModel(
     @SerializedName("coordenadas_longitud")
     var longitud: Double,
 )
+
+data class LoginResponse(
+    var token: String,
+)
