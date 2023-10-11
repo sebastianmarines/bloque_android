@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
         StrictMode.setThreadPolicy(policy)
 
         setContent {
-            NavDrawerTheme {
+            AppFrisaTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -48,32 +48,12 @@ class MainActivity : ComponentActivity() {
                         composable("LoginPage") {
                             LoginPage(navController, viewModel)
                         }
-                        composable("RegisterPage") {
-                            RegisterPage(navController)
-                        }
-                        composable("FavsPage") {
-                            FavsPage()
-                        }
-                        composable("HomePage") {
-                            HomePage(navController,viewModel)
-                        }
-                        composable("TagsPage") {
-                            TagsPage(navController)
-                        }
-                        composable("ProfilePage") {
-                            ProfilePage(viewModel)
-                        }
-                        composable("SecurityPage") {
-                            SecurityPage()
-                        }
 
                         composable("MainPage") {
                             MainPage()
                         }
-
-                        composable("AboutPage"+ "/{org}") {  backStackEntry ->
-                            backStackEntry.arguments?.getString("org")
-                                ?.let { AboutPage(it, navController, viewModel) }
+                        composable("RegisterPage") {
+                            RegisterPage(navController, viewModel)
                         }
                     }
 

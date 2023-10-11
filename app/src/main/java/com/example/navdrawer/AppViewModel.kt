@@ -25,7 +25,7 @@ class AppViewModel : ViewModel() {
     }
 
     private fun createRetrofitService(): OSCService {
-        val retrofit = Retrofit.Builder().baseUrl("http://172.21.219.47:8000/api/")
+        val retrofit = Retrofit.Builder().baseUrl("http://ec2-54-81-104-183.compute-1.amazonaws.com:8000/api/")
             .addConverterFactory(GsonConverterFactory.create()).build()
 
         Log.e("AppViewModel", "getOrganizaciones: ${retrofit.baseUrl()}")

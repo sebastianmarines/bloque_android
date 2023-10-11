@@ -52,6 +52,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.navdrawer.AppFrisaTheme
 import com.example.navdrawer.AppViewModel
 import com.example.navdrawer.screens.about.AboutPage
 import com.example.navdrawer.screens.favorites.FavsPage
@@ -119,48 +120,48 @@ fun MainPage() {
             route = "SecurityPage"
         ),
     )
-
+AppFrisaTheme {
     ModalNavigationDrawer(
         drawerState = drawerState,
         gesturesEnabled = false,
         drawerContent = {
 
-        ModalDrawerSheet {
+            ModalDrawerSheet {
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            items.forEachIndexed { index, item ->
-                NavigationDrawerItem(
-                    label = {
-                        Text(text = item.title)
-                    },
-                    selected = index == selectedItemIndex,
-                    onClick = {
-                        navController.navigate(item.route)
-                        selectedItemIndex = index
-                        scope.launch {
-                            drawerState.close()
-                        }
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = if (index == selectedItemIndex) {
-                                item.selectedIcon
-                            } else item.unselectedIcon,
-                            contentDescription = item.title
-                        )
-                    },
-                    badge = {
-                        item.badgeCount?.let {
-                            Text(text = item.badgeCount.toString())
-                        }
-                    },
-                    modifier = Modifier
-                        .padding(NavigationDrawerItemDefaults.ItemPadding)
-                )
+                items.forEachIndexed { index, item ->
+                    NavigationDrawerItem(
+                        label = {
+                            Text(text = item.title)
+                        },
+                        selected = index == selectedItemIndex,
+                        onClick = {
+                            navController.navigate(item.route)
+                            selectedItemIndex = index
+                            scope.launch {
+                                drawerState.close()
+                            }
+                        },
+                        icon = {
+                            Icon(
+                                imageVector = if (index == selectedItemIndex) {
+                                    item.selectedIcon
+                                } else item.unselectedIcon,
+                                contentDescription = item.title
+                            )
+                        },
+                        badge = {
+                            item.badgeCount?.let {
+                                Text(text = item.badgeCount.toString())
+                            }
+                        },
+                        modifier = Modifier
+                            .padding(NavigationDrawerItemDefaults.ItemPadding)
+                    )
+                }
             }
-        }
-    }) {
+        }) {
         Scaffold(
             topBar = {
                 // Mover el TopAppBar aquí para que esté siempre presente
@@ -187,13 +188,10 @@ fun MainPage() {
             Box(modifier = Modifier.padding(it)) {
 
 
-                NavHost(navController = navController, startDestination = if (viewModel.isUserLoggedIn()) "MainPage" else "LoginPage") {
+                NavHost(navController = navController, startDestination = "HomePage") {
 
-                    composable("LoginPage") {
-                        LoginPage(navController, viewModel)
-                    }
                     composable("RegisterPage") {
-                        RegisterPage(navController)
+                        RegisterPage(navController, viewModel)
                     }
                     composable("FavsPage") {
                         FavsPage()
@@ -226,3 +224,5 @@ fun MainPage() {
     }
 }
 
+
+}
