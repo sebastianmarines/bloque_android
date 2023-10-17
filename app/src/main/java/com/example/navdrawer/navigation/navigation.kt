@@ -55,6 +55,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.navdrawer.AppFrisaTheme
 import com.example.navdrawer.AppViewModel
 import com.example.navdrawer.screens.about.AboutPage
+import com.example.navdrawer.screens.about.MapPage
 import com.example.navdrawer.screens.favorites.FavsPage
 import com.example.navdrawer.screens.home.HomePage
 import com.example.navdrawer.screens.login.LoginPage
@@ -94,6 +95,12 @@ fun MainPage(viewModel: AppViewModel) {
             selectedIcon = Icons.Filled.Home,
             unselectedIcon = Icons.Outlined.Home,
             route = "HomePage"
+        ),
+        NavigationItem(
+            title = "Mapa",
+            selectedIcon = Icons.Filled.Info,
+            unselectedIcon = Icons.Outlined.Info,
+            route = "MapPage"
         ),
         NavigationItem(
             title = "Ver Perfil",
@@ -214,6 +221,10 @@ AppFrisaTheme {
 
                     composable("MainPage") {
                         MainPage(viewModel)
+                    }
+
+                    composable("MapPage") {
+                        MapPage(viewModel)
                     }
 
                     composable("AboutPage"+ "/{org}") {  backStackEntry ->

@@ -197,4 +197,28 @@ class AppViewModel : ViewModel() {
             }
         })
     }
+
+    fun getMapData(map_state: MutableState<MapPageModel>) {
+        val service = createRetrofitService()
+
+        val call: Call<MapPageModel> = service.getMapInfo()
+
+        call.enqueue(object : retrofit2.Callback<MapPageModel> {
+            override fun onResponse(
+                call: Call<MapPageModel>, response: retrofit2.Response<MapPageModel>
+            ) {
+                if (!response.isSuccessful || response.code() != 200) {
+                    Log.e("AppViewModel", "onResponse: ${response.code()}")
+                    return
+                }
+
+                Log.e("AppViewModel", "onResponse: ${response.body()}")
+                map_state.value = response.body()!!
+            }
+
+            override fun onFailure(call: Call<MapPageModel>, t: Throwable) {
+                Log.e("AppViewModel", "onFailure: ${t.message}")
+            }
+        })
+    }
 }

@@ -25,6 +25,12 @@ data class OSCModel(
     var longitud: Double,
 )
 
+data class MapPageModel(
+    @SerializedName("oscs")
+    var organizaciones: List<OSCModel>,
+    var tags: List<TagModel>,
+)
+
 data class LoginResponse(
     var token: String,
 )

@@ -57,5 +57,8 @@ interface OSCService {
 
     @GET("users/me/")
     fun me(@Header("Authorization") token: String): Call<UserModel>
+
+    @GET("getMapInfo/")
+    fun getMapInfo(): Call<MapPageModel>
 }
 
