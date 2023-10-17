@@ -28,3 +28,13 @@ data class OSCModel(
 data class LoginResponse(
     var token: String,
 )
+
+data class UserModel(
+    var username: String,
+    var email: String,
+    var phone: String,
+    @SerializedName("first_name")
+    var firstName: String,
+    @SerializedName("last_name")
+    var lastName: String,
+)

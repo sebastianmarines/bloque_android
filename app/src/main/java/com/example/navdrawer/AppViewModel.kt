@@ -14,6 +14,7 @@ class AppViewModel : ViewModel() {
     private var isLoggedIn = false
     private var token = ""
     private var loginError = ""
+    private var parentNavController: NavController? = null
 
     fun setToken(token: String) {
         this.token = token
@@ -23,12 +24,15 @@ class AppViewModel : ViewModel() {
         return token
     }
 
-    fun setLoggedIn() {
+    fun setLoggedIn(parentNavController: NavController) {
         isLoggedIn = true
+        this.parentNavController = parentNavController
     }
 
     fun setLoggedOut() {
         isLoggedIn = false
+        parentNavController?.navigate("LoginPage")
+        parentNavController = null
     }
 
     fun isUserLoggedIn(): Boolean {
@@ -121,7 +125,7 @@ class AppViewModel : ViewModel() {
                 Log.e("AppViewModel", "onResponse: ${response.body()}")
                 setToken(response.body()!!.token)
                 setLoginError("")
-                setLoggedIn()
+                setLoggedIn(parentNavController = nav)
                 nav.navigate("MainPage")
             }
 
@@ -160,11 +164,35 @@ class AppViewModel : ViewModel() {
                 Log.e("AppViewModel", "onResponse: ${response.body()}")
                 setToken(response.body()!!.token)
                 setLoginError("")
-                setLoggedIn()
+                setLoggedIn(parentNavController = nav)
                 nav.navigate("MainPage")
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.e("AppViewModel", "onFailure: ${t.message}")
+            }
+        })
+    }
+
+    fun getUserProfile(user_state: MutableState<UserModel>) {
+        val service = createRetrofitService()
+
+        val call: Call<UserModel> = service.me(token = "Bearer $token")
+
+        call.enqueue(object : retrofit2.Callback<UserModel> {
+            override fun onResponse(
+                call: Call<UserModel>, response: retrofit2.Response<UserModel>
+            ) {
+                if (!response.isSuccessful || response.code() != 200) {
+                    Log.e("AppViewModel", "onResponse: ${response.code()}")
+                    return
+                }
+
+                Log.e("AppViewModel", "onResponse: ${response.body()}")
+                user_state.value = response.body()!!
+            }
+
+            override fun onFailure(call: Call<UserModel>, t: Throwable) {
                 Log.e("AppViewModel", "onFailure: ${t.message}")
             }
         })

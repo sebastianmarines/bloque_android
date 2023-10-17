@@ -3,6 +3,7 @@ package com.example.navdrawer
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -53,5 +54,8 @@ interface OSCService {
 
     @POST("register/")
     fun register(@Body register: RegisterRequest): Call<LoginResponse>
+
+    @GET("users/me/")
+    fun me(@Header("Authorization") token: String): Call<UserModel>
 }
 

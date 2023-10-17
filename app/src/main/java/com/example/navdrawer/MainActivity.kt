@@ -50,10 +50,29 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("MainPage") {
-                            MainPage()
+                            MainPage(viewModel)
                         }
                         composable("RegisterPage") {
                             RegisterPage(navController, viewModel)
+                        }
+                        composable("FavsPage") {
+                            FavsPage()
+                        }
+                        composable("HomePage") {
+                            HomePage(navController,viewModel)
+                        }
+                        composable("TagsPage") {
+                            TagsPage(navController)
+                        }
+                        composable("ProfilePage") {
+                            ProfilePage(navController, viewModel)
+                        }
+                        composable("SecurityPage") {
+                            SecurityPage()
+                        }
+                        composable("AboutPage"+ "/{org}") {  backStackEntry ->
+                            backStackEntry.arguments?.getString("org")
+                                ?.let { AboutPage(it, navController, viewModel) }
                         }
                     }
 

@@ -77,9 +77,9 @@ data class NavigationItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainPage() {
+fun MainPage(viewModel: AppViewModel) {
 
-    val viewModel: AppViewModel = viewModel()
+//    val viewModel: AppViewModel = viewModel()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val navController = rememberNavController()
@@ -193,6 +193,9 @@ AppFrisaTheme {
                     composable("RegisterPage") {
                         RegisterPage(navController, viewModel)
                     }
+                    composable("LoginPage") {
+                        LoginPage(navController, viewModel)
+                    }
                     composable("FavsPage") {
                         FavsPage()
                     }
@@ -203,14 +206,14 @@ AppFrisaTheme {
                         TagsPage(navController)
                     }
                     composable("ProfilePage") {
-                        ProfilePage(viewModel)
+                        ProfilePage(navController, viewModel)
                     }
                     composable("SecurityPage") {
                         SecurityPage()
                     }
 
                     composable("MainPage") {
-                        MainPage()
+                        MainPage(viewModel)
                     }
 
                     composable("AboutPage"+ "/{org}") {  backStackEntry ->
