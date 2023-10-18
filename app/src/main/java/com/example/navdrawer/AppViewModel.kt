@@ -198,7 +198,7 @@ class AppViewModel : ViewModel() {
         })
     }
 
-    fun getMapData(map_state: MutableState<MapPageModel>) {
+    fun getMapData(map_state: MutableState<MapPageModel>, organizaciones: MutableState<List<OSCModel>>) {
         val service = createRetrofitService()
 
         val call: Call<MapPageModel> = service.getMapInfo()
@@ -214,6 +214,7 @@ class AppViewModel : ViewModel() {
 
                 Log.e("AppViewModel", "onResponse: ${response.body()}")
                 map_state.value = response.body()!!
+                organizaciones.value = response.body()!!.organizaciones
             }
 
             override fun onFailure(call: Call<MapPageModel>, t: Throwable) {
