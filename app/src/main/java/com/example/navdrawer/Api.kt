@@ -49,6 +49,9 @@ interface OSCService {
     @GET("orgs/{id}")
     fun getOrganizacion(@Path("id") id: String): Call<OSCModel>
 
+    @POST("orgs/{id}/edit")
+    fun editOrganizacion(@Path("id") id: String, @Body organizacion: EditRequest): Call<OSCModel>
+
     @POST("login/")
     fun login(@Body login: LoginRequest): Call<LoginResponse>
 

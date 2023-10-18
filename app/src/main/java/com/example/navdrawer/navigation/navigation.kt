@@ -55,6 +55,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.navdrawer.AppFrisaTheme
 import com.example.navdrawer.AppViewModel
 import com.example.navdrawer.screens.about.AboutPage
+import com.example.navdrawer.screens.about.EditPage
 import com.example.navdrawer.screens.about.MapPage
 import com.example.navdrawer.screens.favorites.FavsPage
 import com.example.navdrawer.screens.home.HomePage
@@ -126,6 +127,12 @@ fun MainPage(viewModel: AppViewModel) {
             unselectedIcon = Icons.Outlined.Lock,
             route = "SecurityPage"
         ),
+        NavigationItem(
+            title = "Editar",
+            selectedIcon = Icons.Filled.Settings,
+            unselectedIcon = Icons.Outlined.Settings,
+            route = "EditPage"
+        )
     )
 AppFrisaTheme {
     ModalNavigationDrawer(
@@ -225,6 +232,10 @@ AppFrisaTheme {
 
                     composable("MapPage") {
                         MapPage(viewModel)
+                    }
+
+                    composable("EditPage") {
+                        EditPage(navController, viewModel)
                     }
 
                     composable("AboutPage"+ "/{org}") {  backStackEntry ->

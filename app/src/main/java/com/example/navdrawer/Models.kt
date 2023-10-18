@@ -25,6 +25,13 @@ data class OSCModel(
     var longitud: Double,
 )
 
+data class EditRequest(
+    @SerializedName("coordenadas_latitud")
+    var latitud: Double,
+    @SerializedName("coordenadas_longitud")
+    var longitud: Double,
+)
+
 data class MapPageModel(
     @SerializedName("oscs")
     var organizaciones: List<OSCModel>,
