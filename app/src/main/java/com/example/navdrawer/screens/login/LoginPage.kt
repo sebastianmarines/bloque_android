@@ -28,15 +28,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.navdrawer.AppViewModel
 import com.example.navdrawer.R
+
+
 
 
 @Composable
@@ -52,10 +57,14 @@ fun LoginPage(navController: NavHostController, viewModel: AppViewModel) {
                     painter = painterResource(id = R.drawable.frisa_logo),
                     contentDescription = "Logo de Frisa",
                     contentScale = ContentScale.Fit,
-                    modifier = Modifier.size(120.dp).padding(bottom = 16.dp)
+                    modifier = Modifier.size(200.dp).padding(bottom = 16.dp)
                 )
                 // Logo o nombre de la aplicación, si lo tienes
-                Text(text = "App Frisa")
+                Text(
+                    text = "¡Bienvenido!",
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold
+                )
 
                 // Error de inicio de sesión
                 Text(text = viewModel.getLoginError(), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.error)
@@ -122,3 +131,5 @@ fun LoginPage(navController: NavHostController, viewModel: AppViewModel) {
         }
     }
 }
+
+

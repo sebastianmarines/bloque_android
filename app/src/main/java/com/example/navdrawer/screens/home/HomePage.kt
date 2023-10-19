@@ -28,10 +28,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.navdrawer.AppViewModel
 import com.example.navdrawer.OSCModel
+
+
+
+
+
 
 @Composable
 fun HomePage(
@@ -103,3 +109,6 @@ fun OrgRow(orgname: String, onItemClick: (String) -> Unit = {}) {
         }
     }
 }
+
+
+
