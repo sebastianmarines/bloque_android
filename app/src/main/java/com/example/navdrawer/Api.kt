@@ -63,5 +63,14 @@ interface OSCService {
 
     @GET("getMapInfo/")
     fun getMapInfo(): Call<MapPageModel>
+
+    @GET("users/me/favorites")
+    fun getFavoritos(@Header("Authorization") token: String): Call<List<OSCModel>>
+
+    @POST("users/me/favorites/{id}/")
+    fun addFavorito(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): Call<OSCModel>
 }
 

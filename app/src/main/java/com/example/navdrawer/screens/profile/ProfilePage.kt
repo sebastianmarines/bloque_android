@@ -57,7 +57,7 @@ fun ProfilePage(navController: NavController, viewModel: AppViewModel) {
     }
 
     // Simular una imagen de perfil, reemplaza esta parte con tu lógica de carga de imágenes
-    val profilePictureRes = R.drawable.pic_profile
+    val profilePictureRes = R.drawable.img
 
     LaunchedEffect(null) {
         if (!fetched) {

@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
                             RegisterPage(navController, viewModel)
                         }
                         composable("FavsPage") {
-                            FavsPage()
+                            FavsPage(navController, viewModel)
                         }
                         composable("HomePage") {
                             HomePage(navController,viewModel)

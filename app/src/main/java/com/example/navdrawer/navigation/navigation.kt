@@ -211,7 +211,7 @@ AppFrisaTheme {
                         LoginPage(navController, viewModel)
                     }
                     composable("FavsPage") {
-                        FavsPage()
+                        FavsPage(navController, viewModel)
                     }
                     composable("HomePage") {
                         HomePage(navController,viewModel)

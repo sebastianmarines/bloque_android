@@ -50,7 +50,7 @@ class AppViewModel : ViewModel() {
     }
 
     private fun createRetrofitService(): OSCService {
-        val retrofit = Retrofit.Builder().baseUrl("http://ec2-54-81-104-183.compute-1.amazonaws.com:8000/api/")
+        val retrofit = Retrofit.Builder().baseUrl("http://172.21.219.47:8000/api/")
             .addConverterFactory(GsonConverterFactory.create()).build()
 
         Log.e("AppViewModel", "getOrganizaciones: ${retrofit.baseUrl()}")
@@ -235,6 +235,53 @@ class AppViewModel : ViewModel() {
         val request = EditRequest(latitud, longitud)
 
         val call: Call<OSCModel> = service.editOrganizacion(id, request)
+
+        call.enqueue(object : retrofit2.Callback<OSCModel> {
+            override fun onResponse(
+                call: Call<OSCModel>, response: retrofit2.Response<OSCModel>
+            ) {
+                if (!response.isSuccessful || response.code() != 200) {
+                    Log.e("AppViewModel", "onResponse: ${response.code()}")
+                    return
+                }
+
+                Log.e("AppViewModel", "onResponse: ${response.body()}")
+            }
+
+            override fun onFailure(call: Call<OSCModel>, t: Throwable) {
+                Log.e("AppViewModel", "onFailure: ${t.message}")
+            }
+        })
+    }
+
+    fun getFavoritos(organizaciones: MutableState<List<OSCModel>>) {
+        val service = createRetrofitService()
+
+        val call: Call<List<OSCModel>> = service.getFavoritos(token = "Bearer $token")
+
+        call.enqueue(object : retrofit2.Callback<List<OSCModel>> {
+            override fun onResponse(
+                call: Call<List<OSCModel>>, response: retrofit2.Response<List<OSCModel>>
+            ) {
+                if (!response.isSuccessful || response.code() != 200) {
+                    Log.e("Favoritos", "onResponse: ${response.code()}")
+                    return
+                }
+
+                Log.e("Favoritos", "onResponse: ${response.body()}")
+                organizaciones.value = response.body()!!
+            }
+
+            override fun onFailure(call: Call<List<OSCModel>>, t: Throwable) {
+                Log.e("Favoritos", "onFailure: ${t.message}")
+            }
+        })
+    }
+
+    fun addFavorito(id: String) {
+        val service = createRetrofitService()
+
+        val call: Call<OSCModel> = service.addFavorito(token = "Bearer $token", id = id)
 
         call.enqueue(object : retrofit2.Callback<OSCModel> {
             override fun onResponse(

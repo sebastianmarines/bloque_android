@@ -16,7 +16,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Place
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -79,9 +81,22 @@ fun AboutPage(orgId: String = "", navController: NavHostController, viewModel: A
     // The same as above but with the organization information on top and the map on the bottom
 
     Column(
-        Modifier.fillMaxSize().padding(16.dp),
+        Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+
+        Button(onClick = {
+            Log.d("AboutPage", "Button clicked")
+            viewModel.addFavorito(organizacion.value.id.toString())
+        }) {
+            Icon(
+                imageVector = Icons.Filled.Favorite,
+                contentDescription = null,
+            )
+        }
+
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
@@ -118,6 +133,7 @@ fun AboutPage(orgId: String = "", navController: NavHostController, viewModel: A
                 }
             }
         }
+
 
         Box(
             Modifier
