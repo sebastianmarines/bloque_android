@@ -42,6 +42,8 @@ import com.example.navdrawer.UserModel
 
 @Composable
 fun ProfilePage(navController: NavController, viewModel: AppViewModel) {
+    var fetched by remember { mutableStateOf(false) }
+
     var perfil: MutableState<UserModel> = remember {
         mutableStateOf(
             UserModel(
@@ -56,6 +58,13 @@ fun ProfilePage(navController: NavController, viewModel: AppViewModel) {
 
     // Simular una imagen de perfil, reemplaza esta parte con tu lógica de carga de imágenes
     val profilePictureRes = R.drawable.pic_profile
+
+    LaunchedEffect(null) {
+        if (!fetched) {
+            viewModel.getUserProfile(perfil)
+            fetched = true
+        }
+    }
 
     Column(
         modifier = Modifier
