@@ -300,4 +300,28 @@ class AppViewModel : ViewModel() {
             }
         })
     }
+
+    fun getTags(tags: MutableState<List<TagModel>>) {
+        val service = createRetrofitService()
+
+        val call: Call<List<TagModel>> = service.getTags()
+
+        call.enqueue(object : retrofit2.Callback<List<TagModel>> {
+            override fun onResponse(
+                call: Call<List<TagModel>>, response: retrofit2.Response<List<TagModel>>
+            ) {
+                if (!response.isSuccessful || response.code() != 200) {
+                    Log.e("AppViewModel", "onResponse: ${response.code()}")
+                    return
+                }
+
+                Log.e("AppViewModel", "onResponse: ${response.body()}")
+                tags.value = response.body()!!
+            }
+
+            override fun onFailure(call: Call<List<TagModel>>, t: Throwable) {
+                Log.e("AppViewModel", "onFailure: ${t.message}")
+            }
+        })
+    }
 }

@@ -217,7 +217,7 @@ AppFrisaTheme {
                         HomePage(navController,viewModel)
                     }
                     composable("TagsPage") {
-                        TagsPage(navController)
+                        TagsPage(viewModel)
                     }
                     composable("ProfilePage") {
                         ProfilePage(navController, viewModel)

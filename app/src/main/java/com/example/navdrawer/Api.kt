@@ -72,5 +72,8 @@ interface OSCService {
         @Header("Authorization") token: String,
         @Path("id") id: String
     ): Call<OSCModel>
+
+    @GET("tags/")
+    fun getTags(): Call<List<TagModel>>
 }
 
