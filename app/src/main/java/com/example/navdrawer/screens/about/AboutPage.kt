@@ -30,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.navdrawer.AppViewModel
@@ -40,6 +41,7 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+
 
 
 @Composable
@@ -63,6 +65,9 @@ fun AboutPage(orgId: String = "", navController: NavHostController, viewModel: A
     }
 
 
+
+
+
     LaunchedEffect(null) {
         if (!fetched) {
             viewModel.getOrganizacion(orgId, organizacion)
@@ -72,6 +77,7 @@ fun AboutPage(orgId: String = "", navController: NavHostController, viewModel: A
 
 
     // The same as above but with the organization information on top and the map on the bottom
+
     Column(
         Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
